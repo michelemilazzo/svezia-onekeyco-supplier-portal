@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "ERPNext supplier portal app for invoice upload, fee rules, and bank API integration."
 readme = "README.md"
 requires-python = ">=3.12"
-dependencies = ["frappe>=16.0.0-dev,<17.0.0", "requests"]
+dependencies = ["requests"]
 authors = [{name = "OneKeyCo", email = "support@onekeyco.com"}]
 classifiers = [
     "Framework :: Frappe",
