@@ -12,6 +12,7 @@ __pycache__/
 *.swo
 
 # Frappe build artifacts
-public/
 private/
 node_modules/
+# Track source public/ but ignore generated build artifacts inside it
+public/dist/
