@@ -1,0 +1,16 @@
+[project]
+name = "supplier_portal_app"
+version = "0.1.0"
+description = "ERPNext supplier portal app for invoice upload, fee rules, and bank API integration."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = ["frappe>=16.0.0-dev,<17.0.0", "requests"]
+authors = [{name = "OneKeyCo", email = "support@onekeyco.com"}]
+classifiers = [
+    "Framework :: Frappe",
+    "Programming Language :: Python :: 3",
+]
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
