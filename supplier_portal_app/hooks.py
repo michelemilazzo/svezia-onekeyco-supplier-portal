@@ -1,6 +1,3 @@
-from .tasks import sync_bank_transactions_and_fees
-from .billing import on_fee_approved
-
 app_name = "supplier_portal_app"
 app_title = "Supplier Portal App"
 app_publisher = "OneKeyCo"
