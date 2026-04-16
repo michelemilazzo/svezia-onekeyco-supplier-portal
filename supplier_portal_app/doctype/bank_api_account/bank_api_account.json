@@ -1,0 +1,15 @@
+{
+  "doctype": "DocType",
+  "name": "Bank API Account",
+  "module": "Accounts",
+  "custom": 1,
+  "istable": 1,
+  "fields": [
+    {"fieldname": "bank_account", "fieldtype": "Link", "options": "Bank Account", "label": "Bank Account", "reqd": 1},
+    {"fieldname": "external_account_id", "fieldtype": "Data", "label": "External Account ID"},
+    {"fieldname": "account_name", "fieldtype": "Data", "label": "Account Name"}
+  ],
+  "permissions": [
+    {"role": "Bank API Manager", "read": 1, "write": 1, "create": 1}
+  ]
+}

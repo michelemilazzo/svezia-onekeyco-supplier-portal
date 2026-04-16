@@ -1,0 +1,18 @@
+{
+  "doctype": "DocType",
+  "name": "Fee Rule",
+  "module": "Accounts",
+  "custom": 1,
+  "fields": [
+    {"fieldname": "direction", "fieldtype": "Select", "options": "Entrata\nUscita", "label": "Direzione", "reqd": 1},
+    {"fieldname": "bank_account", "fieldtype": "Link", "options": "Bank Account", "label": "Conto Bancario"},
+    {"fieldname": "min_amount", "fieldtype": "Currency", "label": "Importo Minimo", "default": 0},
+    {"fieldname": "percentage", "fieldtype": "Percent", "label": "% Fee", "reqd": 1},
+    {"fieldname": "minimum_fee", "fieldtype": "Currency", "label": "Fee Minima"},
+    {"fieldname": "enabled", "fieldtype": "Check", "label": "Abilitata", "default": 1}
+  ],
+  "permissions": [
+    {"role": "Accounts Manager", "read": 1, "write": 1, "create": 1},
+    {"role": "Accounts User", "read": 1, "write": 1, "create": 1}
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "doctype": "DocType",
+  "name": "Transaction Fee",
+  "module": "Accounts",
+  "custom": 1,
+  "fields": [
+    {"fieldname": "transaction_id", "fieldtype": "Data", "label": "ID Transazione", "reqd": 1},
+    {"fieldname": "bank_account", "fieldtype": "Link", "options": "Bank Account", "label": "Conto Bancario"},
+    {"fieldname": "transaction_date", "fieldtype": "Date", "label": "Data Transazione"},
+    {"fieldname": "amount", "fieldtype": "Currency", "label": "Importo"},
+    {"fieldname": "fee_percentage", "fieldtype": "Percent", "label": "% Fee"},
+    {"fieldname": "fee_amount", "fieldtype": "Currency", "label": "Fee Calcolata"},
+    {"fieldname": "direction", "fieldtype": "Select", "options": "Entrata\nUscita", "label": "Direzione"},
+    {"fieldname": "status", "fieldtype": "Select", "options": "Pending\nApproved\nInvoiced\nRejected", "label": "Stato"},
+    {"fieldname": "sales_invoice", "fieldtype": "Link", "options": "Sales Invoice", "label": "Sales Invoice"},
+    {"fieldname": "purchase_invoice", "fieldtype": "Link", "options": "Purchase Invoice", "label": "Purchase Invoice"},
+    {"fieldname": "bank_transaction", "fieldtype": "Link", "options": "Bank Transaction", "label": "Bank Transaction"},
+    {"fieldname": "customer", "fieldtype": "Link", "options": "Customer", "label": "Customer"},
+    {"fieldname": "supplier", "fieldtype": "Link", "options": "Supplier", "label": "Supplier"},
+    {"fieldname": "income_account", "fieldtype": "Link", "options": "Account", "label": "Income Account"},
+    {"fieldname": "expense_account", "fieldtype": "Link", "options": "Account", "label": "Expense Account"}
+  ],
+  "permissions": [
+    {"role": "Accounts Manager", "read": 1, "write": 1, "create": 1, "submit": 1},
+    {"role": "Accounts User", "read": 1, "write": 1, "create": 1},
+    {"role": "Fee Approver", "read": 1, "submit": 1}
+  ]
+}
