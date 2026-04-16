@@ -1,0 +1,32 @@
+name: Notify Press on Push
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  press-fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Press App Source fetch
+        env:
+          PRESS_KEY: ${{ secrets.PRESS_API_KEY }}
+          PRESS_SECRET: ${{ secrets.PRESS_API_SECRET }}
+          PRESS_URL: ${{ secrets.PRESS_URL }}
+          APP_NAME: supplier_portal_app
+        run: |
+          SOURCES=$(curl -s -G "$PRESS_URL/api/method/frappe.client.get_list" \
+            --data-urlencode "doctype=App Source" \
+            --data-urlencode "fields=[\"name\"]" \
+            --data-urlencode "filters=[[\"app\",\"=\",\"$APP_NAME\"]]" \
+            --data-urlencode "limit=10" \
+            -H "Authorization: token $PRESS_KEY:$PRESS_SECRET" \
+            | jq -r '.message[].name' 2>/dev/null)
+
+          for SRC in $SOURCES; do
+            echo "Touching App Source: $SRC"
+            curl -s -X PUT "$PRESS_URL/api/resource/App%20Source/$SRC" \
+              -H "Authorization: token $PRESS_KEY:$PRESS_SECRET" \
+              -H "Content-Type: application/json" \
+              -d '{"last_github_poll_failed":0}' | jq -r '.message.name // "done"'
+          done
