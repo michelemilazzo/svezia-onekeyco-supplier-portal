@@ -1,32 +1,62 @@
-name: Notify Press on Push
+name: Notify Press and Approve Release on Push
 
 on:
   push:
     branches: [main]
 
 jobs:
-  press-fetch:
+  press-sync:
     runs-on: ubuntu-latest
-    steps:
-      - name: Trigger Press App Source fetch
-        env:
-          PRESS_KEY: ${{ secrets.PRESS_API_KEY }}
-          PRESS_SECRET: ${{ secrets.PRESS_API_SECRET }}
-          PRESS_URL: ${{ secrets.PRESS_URL }}
-          APP_NAME: supplier_portal_app
-        run: |
-          SOURCES=$(curl -s -G "$PRESS_URL/api/method/frappe.client.get_list" \
-            --data-urlencode "doctype=App Source" \
-            --data-urlencode "fields=[\"name\"]" \
-            --data-urlencode "filters=[[\"app\",\"=\",\"$APP_NAME\"]]" \
-            --data-urlencode "limit=10" \
-            -H "Authorization: token $PRESS_KEY:$PRESS_SECRET" \
-            | jq -r '.message[].name' 2>/dev/null)
+    env:
+      PRESS_KEY: ${{ secrets.PRESS_API_KEY }}
+      PRESS_SECRET: ${{ secrets.PRESS_API_SECRET }}
+      PRESS_URL: ${{ secrets.PRESS_URL }}
+      APP_NAME: supplier_portal_app
 
-          for SRC in $SOURCES; do
-            echo "Touching App Source: $SRC"
-            curl -s -X PUT "$PRESS_URL/api/resource/App%20Source/$SRC" \
+    steps:
+      - name: Approve latest Draft App Release in Press
+        run: |
+          COMMIT_HASH="${{ github.sha }}"
+          echo "Commit: $COMMIT_HASH"
+
+          # Wait up to 60s for Press to fetch the release via GitHub App webhook
+          for i in $(seq 1 6); do
+            sleep 10
+            RELEASE=$(curl -s -G "$PRESS_URL/api/method/frappe.client.get_list" \
+              --data-urlencode "doctype=App Release" \
+              --data-urlencode "fields=[\"name\",\"status\",\"hash\"]" \
+              --data-urlencode "filters=[[\"app\",\"=\",\"$APP_NAME\"],[\"hash\",\"like\",\"${COMMIT_HASH:0:10}%\"]]" \
+              --data-urlencode "limit=1" \
+              -H "Authorization: token $PRESS_KEY:$PRESS_SECRET" \
+              | jq -r '.message[0].name // ""')
+
+            if [ -n "$RELEASE" ]; then
+              echo "Found release: $RELEASE"
+              break
+            fi
+            echo "Waiting for Press to fetch release (attempt $i/6)..."
+          done
+
+          if [ -z "$RELEASE" ]; then
+            # Fallback: approve latest Draft
+            RELEASE=$(curl -s -G "$PRESS_URL/api/method/frappe.client.get_list" \
+              --data-urlencode "doctype=App Release" \
+              --data-urlencode "fields=[\"name\",\"status\"]" \
+              --data-urlencode "filters=[[\"app\",\"=\",\"$APP_NAME\"],[\"status\",\"=\",\"Draft\"]]" \
+              --data-urlencode "order_by=creation desc" \
+              --data-urlencode "limit=1" \
+              -H "Authorization: token $PRESS_KEY:$PRESS_SECRET" \
+              | jq -r '.message[0].name // ""')
+            echo "Using latest draft: $RELEASE"
+          fi
+
+          if [ -n "$RELEASE" ]; then
+            STATUS=$(curl -s -X PUT "$PRESS_URL/api/resource/App%20Release/$RELEASE" \
               -H "Authorization: token $PRESS_KEY:$PRESS_SECRET" \
               -H "Content-Type: application/json" \
-              -d '{"last_github_poll_failed":0}' | jq -r '.message.name // "done"'
-          done
+              -d '{"status":"Approved"}' \
+              | jq -r '.data.status // .message.status // "error"')
+            echo "Release $RELEASE -> $STATUS"
+          else
+            echo "No release found to approve"
+          fi
