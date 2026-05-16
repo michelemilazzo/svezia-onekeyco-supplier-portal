@@ -6,6 +6,11 @@ app_icon = "octicon octicon-file-directory"
 app_color = "grey"
 app_email = "support@onekeyco.com"
 app_license = "MIT"
+required_apps = ["erpnext"]
+
+fixtures = [
+    "Custom Field"
+]
 
 scheduler_events = {
     "hourly": [
