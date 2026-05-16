@@ -1,0 +1,15 @@
+{
+  "doctype":"DocType",
+  "module":"Supplier Portal App",
+  "name":"Transaction Fee",
+  "field_order":["transaction_id","bank_transaction","amount","fee_percentage","fee_amount","direction","status"],
+  "fields":[
+    {"fieldname":"transaction_id","fieldtype":"Data","label":"Transaction ID","reqd":1},
+    {"fieldname":"bank_transaction","fieldtype":"Link","options":"Bank Transaction","label":"Bank Transaction"},
+    {"fieldname":"amount","fieldtype":"Currency","label":"Amount"},
+    {"fieldname":"fee_percentage","fieldtype":"Percent","label":"Fee Percentage"},
+    {"fieldname":"fee_amount","fieldtype":"Currency","label":"Fee Amount"},
+    {"fieldname":"direction","fieldtype":"Select","options":"Entrata\nUscita","label":"Direction"},
+    {"fieldname":"status","fieldtype":"Select","options":"Pending\nInvoiced","label":"Status","default":"Pending"}
+  ]
+}
