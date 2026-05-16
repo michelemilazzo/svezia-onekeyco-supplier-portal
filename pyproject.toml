@@ -3,12 +3,18 @@ name = "supplier_portal_app"
 version = "0.1.0"
 description = "ERPNext supplier portal app for invoice upload, fee rules, and bank API integration."
 readme = "README.md"
-requires-python = ">=3.12"
-dependencies = ["requests"]
-authors = [{name = "OneKeyCo", email = "support@onekeyco.com"}]
+requires-python = ">=3.11,<3.13"
+dependencies = [
+    "requests>=2.31.0",
+]
+authors = [
+    {name = "OneKeyCo", email = "support@onekeyco.com"},
+]
 classifiers = [
     "Framework :: Frappe",
     "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
 ]
 
 [build-system]
