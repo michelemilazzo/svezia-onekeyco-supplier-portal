@@ -1,0 +1,14 @@
+{
+  "doctype":"DocType",
+  "module":"Supplier Portal App",
+  "name":"Fee Rule",
+  "field_order":["enabled","direction","bank_account","min_amount","percentage","minimum_fee"],
+  "fields":[
+    {"fieldname":"enabled","fieldtype":"Check","label":"Enabled","default":"1"},
+    {"fieldname":"direction","fieldtype":"Select","options":"Entrata\nUscita","label":"Direction"},
+    {"fieldname":"bank_account","fieldtype":"Link","options":"Bank Account","label":"Bank Account"},
+    {"fieldname":"min_amount","fieldtype":"Currency","label":"Minimum Amount"},
+    {"fieldname":"percentage","fieldtype":"Percent","label":"Fee Percentage"},
+    {"fieldname":"minimum_fee","fieldtype":"Currency","label":"Minimum Fee"}
+  ]
+}
