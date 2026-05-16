@@ -1,15 +1,51 @@
 {
-  "doctype":"DocType",
-  "module":"Supplier Portal App",
-  "name":"Transaction Fee",
-  "field_order":["transaction_id","bank_transaction","amount","fee_percentage","fee_amount","direction","status"],
-  "fields":[
-    {"fieldname":"transaction_id","fieldtype":"Data","label":"Transaction ID","reqd":1},
-    {"fieldname":"bank_transaction","fieldtype":"Link","options":"Bank Transaction","label":"Bank Transaction"},
-    {"fieldname":"amount","fieldtype":"Currency","label":"Amount"},
-    {"fieldname":"fee_percentage","fieldtype":"Percent","label":"Fee Percentage"},
-    {"fieldname":"fee_amount","fieldtype":"Currency","label":"Fee Amount"},
-    {"fieldname":"direction","fieldtype":"Select","options":"Entrata\nUscita","label":"Direction"},
-    {"fieldname":"status","fieldtype":"Select","options":"Pending\nInvoiced","label":"Status","default":"Pending"}
+  "doctype": "DocType",
+  "module": "Supplier Portal App",
+  "name": "Transaction Fee",
+  "is_submittable": 1,
+  "field_order": [
+    "transaction_id",
+    "bank_transaction",
+    "bank_account",
+    "transaction_date",
+    "direction",
+    "amount",
+    "fee_percentage",
+    "fee_amount",
+    "party_section",
+    "customer",
+    "supplier",
+    "accounts_section",
+    "income_account",
+    "expense_account",
+    "status_section",
+    "status",
+    "sales_invoice",
+    "purchase_invoice"
+  ],
+  "fields": [
+    {"fieldname": "transaction_id", "fieldtype": "Data", "label": "Transaction ID", "reqd": 1, "unique": 1},
+    {"fieldname": "bank_transaction", "fieldtype": "Link", "options": "Bank Transaction", "label": "Bank Transaction"},
+    {"fieldname": "bank_account", "fieldtype": "Link", "options": "Bank Account", "label": "Bank Account"},
+    {"fieldname": "transaction_date", "fieldtype": "Date", "label": "Transaction Date"},
+    {"fieldname": "direction", "fieldtype": "Select", "options": "Entrata\nUscita", "label": "Direction", "reqd": 1},
+    {"fieldname": "amount", "fieldtype": "Currency", "label": "Amount"},
+    {"fieldname": "fee_percentage", "fieldtype": "Percent", "label": "Fee Percentage"},
+    {"fieldname": "fee_amount", "fieldtype": "Currency", "label": "Fee Amount"},
+    {"fieldname": "party_section", "fieldtype": "Section Break", "label": "Party"},
+    {"fieldname": "customer", "fieldtype": "Link", "options": "Customer", "label": "Customer"},
+    {"fieldname": "supplier", "fieldtype": "Link", "options": "Supplier", "label": "Supplier"},
+    {"fieldname": "accounts_section", "fieldtype": "Section Break", "label": "Accounts"},
+    {"fieldname": "income_account", "fieldtype": "Link", "options": "Account", "label": "Income Account"},
+    {"fieldname": "expense_account", "fieldtype": "Link", "options": "Account", "label": "Expense Account"},
+    {"fieldname": "status_section", "fieldtype": "Section Break", "label": "Status"},
+    {"fieldname": "status", "fieldtype": "Select", "options": "Pending\nApproved\nInvoiced\nCancelled", "label": "Status", "default": "Pending"},
+    {"fieldname": "sales_invoice", "fieldtype": "Link", "options": "Sales Invoice", "label": "Sales Invoice", "read_only": 1},
+    {"fieldname": "purchase_invoice", "fieldtype": "Link", "options": "Purchase Invoice", "label": "Purchase Invoice", "read_only": 1}
+  ],
+  "permissions": [
+    {"role": "System Manager", "read": 1, "write": 1, "create": 1, "delete": 1, "submit": 1, "cancel": 1},
+    {"role": "Accounts Manager", "read": 1, "write": 1, "create": 1, "submit": 1, "cancel": 1},
+    {"role": "Accounts User", "read": 1, "write": 1, "create": 1}
   ]
 }
