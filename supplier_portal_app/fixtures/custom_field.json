@@ -1,0 +1,18 @@
+[
+ {
+   "dt":"Sales Invoice",
+   "fieldname":"custom_transaction_fee",
+   "fieldtype":"Link",
+   "label":"Transaction Fee",
+   "insert_after":"customer",
+   "options":"Transaction Fee"
+ },
+ {
+   "dt":"Purchase Invoice",
+   "fieldname":"custom_transaction_fee",
+   "fieldtype":"Link",
+   "label":"Transaction Fee",
+   "insert_after":"supplier",
+   "options":"Transaction Fee"
+ }
+]
